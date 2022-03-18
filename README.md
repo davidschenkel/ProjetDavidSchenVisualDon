@@ -28,5 +28,5 @@ L’objectif de ce travail est d’interroger un maximum de personnes de mon ent
 
 ## WireFrame
 
-Afin de définir au mieux le projet en amont et de comprendre ce que je vais produire, j'ai réalisé un wireframe. 
+Afin de définir au mieux le projet et de comprendre ce que je vais produire, j'ai réalisé un wireframe. Il permet d'obtenir un premier "croquis" de la visualisation. 
 Voici le lien pour y accèder sur Figma : https://www.figma.com/file/AtYdooq3VXy22ILeN1MsiW/WireFrame-ProjetVoyage?node-id=0%3A1
