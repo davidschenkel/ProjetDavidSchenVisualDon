@@ -25,3 +25,8 @@ L’objectif de ce travail est d’interroger un maximum de personnes de mon ent
 ## Référence  
 
 Étant donné que ces données proviendront d’un travail personnel, aucune autre personne ne les a utilisées sur le web. Il n’existe pour le moment aucun travail comportant ces données. De plus, je n’ai pas trouvé de projet traitant cette même thématique. Créer un projet original est une vraie motivation me concernant et cela m’a encouragé à faire ce choix.
+
+## WireFrame
+
+Afin de définir au mieux le projet en amont et de comprendre ce que je vais produire, j'ai réalisé un wireframe. 
+Voici le lien pour y accèder sur Figma : https://www.figma.com/file/AtYdooq3VXy22ILeN1MsiW/WireFrame-ProjetVoyage?node-id=0%3A1
