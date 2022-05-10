@@ -1,3 +1,4 @@
+import * as d3 from 'd3';
 // fonction trouvée en ligne pour rendre la visualisation responsive
 function responsivefy(svg) {
     // container will be the DOM element

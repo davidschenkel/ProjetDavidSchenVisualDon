@@ -5,53 +5,83 @@
     <meta charset="UTF-8">
     <title>Projet VisualDon</title>
     <link rel="shortcut icon" href="../assets/img/favicon.ico">
-    <script src="src/index.js" async></script>
     <!-- Load d3.js -->
     <script src="https://d3js.org/d3.v6.js"></script>
     <!-- Load d3-cloud -->
     <script src="https://cdn.jsdelivr.net/gh/holtzy/D3-graph-gallery@master/LIB/d3.layout.cloud.js"></script>
+    <!-- Color scale -->
+    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+    <!-- Function for radial charts -->
+    <script src="https://cdn.jsdelivr.net/gh/holtzy/D3-graph-gallery@master/LIB/d3-scale-radial.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.6.0/d3.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <script defer src="src/index.js" async></script>
 </head>
 
-<style>
-    body {
-        background-color: black;
-    }
-
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-        font-family: 'Titillium Web', sans-serif;
-        text-align: center;
-        color: green;
-    }
-
-    /* .motivation:hover {
-  transform: scale(1.2);
-} */
-
-
-</style>
-
 <body>
+    <div id="explications" class="hide">
+        <h1>Projet Voyage VisualDon</h1>
 
-    <h1>Projet Voyage VisualDon</h1>
+        <h4>Voici mon projet de visualisation de données.<br>
+            J'ai réalisé un sondage, auprès de 32 personnes, avec pour objectif d'identifier des tendances autour du
+            voyage.<br>
+            Chaque visualisation illustre les réponses d'une question du sondage.
+            <br><br><br>
+        </h4>
+        <!-- <div class="button"> <button id="enter">Démarrer</button></div> -->
+        <a class="button1" id="enter">Démarrer</a>
 
-    <h4>Voici mon projet de visualisation de données.<br>
-        J'ai réalisé un sondage, auprès de 32 personnes, avec pour objectif d'identifier des tendances autour du voyage.<br>
-        Chaque visualisation illustre les réponses d'une question du sondage.
-        <br><br><br><br><br>
-    </h4>
+    </div>
 
-    
-    
-    <h2>Commençons par nous demander pourquoi les gens partent en vacances et voyagent.</h2>
+    <div id="vizs" class="hide">
 
-    
+        <h2 id="begin">Commençons par nous demander pourquoi les gens partent en vacances et voyagent.</h2>
+        <div id="my_dataviz1"></div>
 
-    <div id="my_dataviz1"></div>
+
+        <h2>Combien de temps les gens souhaitent-ils partir ? </h2>
+        <div id="my_dataviz2" >
+            <div class="tooltip" class="hidden"></div>
+        </div>
+
+        <h2>A quelle saison veulent-ils partir ?</h2>
+        <div id="my_dataviz3"></div>
+
+        <h2>Quels sont les pays les plus cités ?</h2>
+        <div id="my_dataviz4"></div>
+
+        <h2>Quels sont les accompagnants préférés ?</h2>
+        <div id="my_dataviz5"></div>
+
+        <h2>Quel est le type de logement préféré ? </h2>
+        <div id="my_dataviz6"></div>
+
+        <h2>Quel est le type de voyage préféré ? </h2>
+        <div id="my_dataviz7" class="divSpe"></div>
+
+        <!-- <div id="divSpe" class="button"> <button id="enter2">Suite</button></div> -->
+        <a class="button2" class="divSpe" id="enter2">Suite</a>
+
+
+    </div>
+
+
+
+    <div id="final" class="hide">
+        <h1>Le voyage idéal</h1>
+
+        <h4>Voici mon projet de visualisation de données.<br>
+            ...<br>
+            ...
+            <br><br><br>
+        </h4>
+        <!-- <div class="button"> <button id="enter3">Retour au début</button></div> -->
+        <a class="button3" id="enter3">Retour au début</a>
+
+    </div>
+
+
+
 
 
 

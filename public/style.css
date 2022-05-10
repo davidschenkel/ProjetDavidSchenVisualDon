@@ -1,0 +1,159 @@
+body {
+    background-color: white;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Titillium Web', sans-serif;
+    text-align: center;
+    color: black;
+}
+
+div:not(#explication, #final, #divSpe, #vizs, #my_dataviz7, .tooltip) {
+
+    margin-bottom: 500px;
+}
+
+#vizs {
+
+    margin-bottom: 50px;
+}
+
+#explications {
+
+    position: absolute;
+    left: 50%;
+    top: 45%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+
+
+}
+
+
+a.button1 {
+
+    padding: 0.35em 1.2em;
+    border: 0.1em solid;
+    /* margin: 0.3em 0.3em 0em; */
+    border-radius: 0.5em;
+    margin-left: 41%;
+    /* box-sizing: border-box; */
+    /* text-decoration: none; */
+    font-family: 'Titillium Web', sans-serif;
+    font-weight: 300;
+    background-color: green;
+    color: white;
+    text-align: center;
+    transition: all 0.2s;
+}
+
+a.button1:hover {
+    color: green;
+    background-color: white;
+}
+
+a.button2 {
+
+    padding: 0.35em 1.2em;
+    border: 0.1em solid;
+    /* margin: 0.3em 0.3em 0em; */
+    margin-bottom: 130px;
+    border-radius: 0.5em;
+    margin-left: 48%;
+    /* box-sizing: border-box; */
+    /* text-decoration: none; */
+    font-family: 'Titillium Web', sans-serif;
+    font-weight: 300;
+    background-color: green;
+    color: white;
+    text-align: center;
+    transition: all 0.2s;
+}
+
+a.button2:hover {
+    color: green;
+    background-color: white;
+}
+
+a.button3 {
+
+    padding: 0.35em 1.2em;
+    border: 0.1em solid;
+    /* margin: 0.3em 0.3em 0em; */
+    border-radius: 0.5em;
+    margin-left: 30%;
+    /* box-sizing: border-box; */
+    /* text-decoration: none; */
+    font-family: 'Titillium Web', sans-serif;
+    font-weight: 300;
+    background-color: green;
+    color: white;
+    text-align: center;
+    transition: all 0.2s;
+}
+
+a.button3:hover {
+    color: green;
+    background-color: white;
+}
+
+
+
+#final {
+
+    position: absolute;
+    left: 50%;
+    top: 45%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+
+.hide {
+    display: none;
+}
+
+.divSpe {
+
+
+    margin-bottom: 250px;
+
+
+}
+
+#begin {
+    margin-top: 350px;
+}
+
+#tooltip{
+	position: absolute;
+	width: 200px;
+	height: auto;
+	padding: 10px;
+	background-color: blanchedalmond;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	-webkit-box-shadow: 4px 4px 10px rgba(0,0,0,0.4);
+	-moz-box-shadow: 4px 4px 10px rgba(0,0,0,0.4);
+	box-shadow: 4px 4px 10px rgba(0,0,0,0.4);
+	pointer-events: none;
+}
+#tooltip.hidden{
+	display: none;
+}
+/* #tooltip p{
+	margin: 0;
+	font-family: sans-serif;
+	font-size: 16px;
+	line-height: 20px;
+} */
+
+.highlight{
+	fill:palevioletred
+}
