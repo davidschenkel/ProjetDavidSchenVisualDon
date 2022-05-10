@@ -86,7 +86,7 @@ a.button3 {
     border: 0.1em solid;
     /* margin: 0.3em 0.3em 0em; */
     border-radius: 0.5em;
-    margin-left: 30%;
+    margin-left: 38%;
     /* box-sizing: border-box; */
     /* text-decoration: none; */
     font-family: 'Titillium Web', sans-serif;
@@ -144,7 +144,7 @@ a.button3:hover {
 	box-shadow: 4px 4px 10px rgba(0,0,0,0.4);
 	pointer-events: none;
 }
-#tooltip.hidden{
+.hidden{
 	display: none;
 }
 /* #tooltip p{

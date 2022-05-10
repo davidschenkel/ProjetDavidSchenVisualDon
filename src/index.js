@@ -29,11 +29,10 @@ function domOn(selector, event, callback, options) {
   document.querySelectorAll(selector).forEach(element => element.addEventListener(event, callback, options));
 }
 
-//import dataBrutes from '../data/Projet_data.csv'
-
 import responsivefy from './responsive';
 import dataBrutes from '../data/data.json'
 import propositions from '../data/dataPropositions.json'
+import { formatPrefix } from 'd3'
 
 
 // Tri des données dans les tableaux
@@ -49,7 +48,7 @@ const tabThemeBrut = dataBrutes.map(dataBrutes => dataBrutes["theme"]);
 
 // connaitre combien de personnes ont répondu pour ajuster les graphiques
 const reponsesTotales = tabThemeBrut.length
-console.log(reponsesTotales);
+// console.log(reponsesTotales);
 
 
 // const count = (array, question) => {
@@ -123,6 +122,8 @@ console.log(pays);
 
 
 
+
+
 // List of words
 //var myWords = [{word: "Running", size: "10"}, {word: "Surfing", size: "20"}, {word: "Climbing", size: "50"}, {word: "Kiting", size: "30"}, {word: "Sailing", size: "20"}, {word: "Snowboarding", size: "60"} ]
 //var myWords = [{word: "Volonté de découvrir le monde et soif d'apprentissage", size: "10"}, {word: "S'évader du quotidien fatiguant et penser à autre chose", size: "20"}, {word: "Voyage de rêve en tête et volonté de le réaliser", size: "50"}, {word: "Habitude de voyager régulièrement", size: "30"} ]
@@ -169,7 +170,6 @@ function draw(words) {
     .attr("text-anchor", "middle")
     .style("font-family", "Titillium Web")
     .style("font-weight", "bold")
-
     .attr("transform", function (d) {
       return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
     })
@@ -181,38 +181,55 @@ function draw(words) {
 domOn('.motivation73', 'mouseover', () => {
   d3.select('.motivation35').style("fill-opacity", "0.5")
   d3.select('.motivation20').style("fill-opacity", "0.5")
+  onMouseOverWorldCloudMotivation(21)
 })
 
 domOn('.motivation73', 'mouseout', () => {
   d3.select('.motivation35').style("fill-opacity", "1")
   d3.select('.motivation20').style("fill-opacity", "1")
+  onMouseOutWorldCloudMotivation()
 })
 
 domOn('.motivation35', 'mouseover', () => {
   d3.select('.motivation73').style("fill-opacity", "0.5")
   d3.select('.motivation20').style("fill-opacity", "0.5")
+  onMouseOverWorldCloudMotivation(10)
 })
 
 domOn('.motivation35', 'mouseout', () => {
   // d3.select('.motivation73').style("fill", "green")
   d3.select('.motivation73').style("fill-opacity", "1")
   d3.select('.motivation20').style("fill-opacity", "1")
+  onMouseOutWorldCloudMotivation()
 })
-
-
 
 domOn('.motivation20', 'mouseover', () => {
   d3.select('.motivation35').style("fill-opacity", "0.5")
   d3.select('.motivation73').style("fill-opacity", "0.5")
+  onMouseOverWorldCloudMotivation(1)
 })
 
 domOn('.motivation20', 'mouseout', () => {
   //d3.select('.motivation73').style("fill", "green")
   d3.select('.motivation35').style("fill-opacity", "1")
   d3.select('.motivation73').style("fill-opacity", "1")
+  onMouseOutWorldCloudMotivation()
 })
 
+// Mouseover 
+function onMouseOverWorldCloudMotivation(d) {
 
+  d3.select('.tooltip1')
+  .style("text-align", "center")
+  .style("font-family", "Titillium Web")
+  .text(Math.round((d) / reponsesTotales * 100) + " % des votants")
+  d3.select('.tooltip1').classed('hidden', false);
+}
+	// Mouseout 
+	function onMouseOutWorldCloudMotivation(d, i){
+		d3.select('.tooltip1')
+    .text("Passer la souris pour découvrir les %");
+	}
 
 
 // GRAPHIQUE 2 TIME BARS
@@ -222,20 +239,6 @@ var svg2 = d3.select("#my_dataviz2").append("svg")
   .call(responsivefy) // rend la visualisation responsive
   .append("g").attr("id", "viz2")
   .attr("transform", "translate(" + margin.left * 17 + "," + margin.top + ")")
-
-
-// let data = time.map((u) => {
-//   let postsVar = posts.filter((p, i) => p.userId == u.id)
-//   let variable = {
-//     "nom": u.username,
-//     "nbPosts": postsVar.map(posts => posts.title),
-
-//   }
-
-//   return variable;
-
-// })
-
 
 let x = d3.scaleBand()
   .domain(time.map(function (t) { return t[0]; }))
@@ -307,23 +310,17 @@ function onMouseOver(d, i) {
   // Get bar's xy values, ,then augment for the tooltip
   var xPos = parseFloat(d3.select(this).attr('x')) ;
   var yPos = parseFloat(d3.select(this).attr('y')) / 2 + height / 2
-
   // Update Tooltip's position and value
-  d3.select('.tooltip')
+  d3.select('.tooltip2')
   .style("text-align", "center")
   .style("font-family", "Titillium Web")
-  .text(d[1] + " personnes préfèrent " + d[0])
-  
-  
-  d3.select('.tooltip').classed('hidden', false);
-
+  .text(d[1] + " votes (" + Math.round((d[1]) / reponsesTotales * 100) + " %)")
+  d3.select('.tooltip2').classed('hidden', false);
 }
-
 	// Mouseout event handler
 	function onMouseOut(d, i){
-
-		
-		d3.select('#tooltip').classed('hidden', true);
+		d3.select('.tooltip2')
+    .text("Passer la souris pour découvrir les %");
 	}
 
 
@@ -371,6 +368,92 @@ elemEnter.append("text")
   .style("font-weight", "regular")
   .style("font-size", 20)
 
+  domOn('.saisonEté', 'mouseover', () => {
+    for (const sai of saison) {
+      d3.select(`.saison${sai[0]}`).style("fill-opacity", "0.5")
+      d3.select(`.saisontexte${sai[0]}`).style("fill-opacity", "0.5")
+    }
+    d3.select('.saisonEté').style("fill-opacity", "1")
+    d3.select(`.saisontexteEté`).style("fill-opacity", "1")
+    onMouseOverSaison(16)
+  })
+  domOn('.saisonEté', 'mouseout', () => {
+    for (const sai of saison) {
+      d3.select(`.saison${sai[0]}`).style("fill-opacity", "1")
+      d3.select(`.saisontexte${sai[0]}`).style("fill-opacity", "1")
+    }
+    //d3.select('.saisonEté').style("fill-opacity", "1")
+    onMouseOutSaison()
+  })
+
+  domOn('.saisonPrintemps', 'mouseover', () => {
+    for (const sai of saison) {
+      d3.select(`.saison${sai[0]}`).style("fill-opacity", "0.5")
+      d3.select(`.saisontexte${sai[0]}`).style("fill-opacity", "0.5")
+    }
+    d3.select('.saisonPrintemps').style("fill-opacity", "1")
+    d3.select(`.saisontextePrintemps`).style("fill-opacity", "1")
+    onMouseOverSaison(8)
+  })
+  domOn('.saisonPrintemps', 'mouseout', () => {
+    for (const sai of saison) {
+      d3.select(`.saison${sai[0]}`).style("fill-opacity", "1")
+      d3.select(`.saisontexte${sai[0]}`).style("fill-opacity", "1")
+    }
+    //d3.select('.saisonPrintemps').style("fill-opacity", "1")
+    onMouseOutSaison()
+  })
+
+  domOn('.saisonAutomne', 'mouseover', () => {
+    for (const sai of saison) {
+      d3.select(`.saison${sai[0]}`).style("fill-opacity", "0.5")
+      d3.select(`.saisontexte${sai[0]}`).style("fill-opacity", "0.5")
+    }
+    d3.select('.saisonAutomne').style("fill-opacity", "1")
+    d3.select(`.saisontexteAutomne`).style("fill-opacity", "1")
+    onMouseOverSaison(5)
+  })
+  domOn('.saisonAutomne', 'mouseout', () => {
+    for (const sai of saison) {
+      d3.select(`.saison${sai[0]}`).style("fill-opacity", "1")
+      d3.select(`.saisontexte${sai[0]}`).style("fill-opacity", "1")
+    }
+    //d3.select('.saisonAutomne').style("fill-opacity", "1")
+    onMouseOutSaison()
+  })
+
+  domOn('.saisonHiver', 'mouseover', () => {
+    for (const sai of saison) {
+      d3.select(`.saison${sai[0]}`).style("fill-opacity", "0.5")
+      d3.select(`.saisontexte${sai[0]}`).style("fill-opacity", "0.5")
+    }
+    d3.select('.saisonHiver').style("fill-opacity", "1")
+    d3.select(`.saisontexteHiver`).style("fill-opacity", "1")
+    onMouseOverSaison(3)
+  })
+  domOn('.saisonHiver', 'mouseout', () => {
+    for (const sai of saison) {
+      d3.select(`.saison${sai[0]}`).style("fill-opacity", "1")
+      d3.select(`.saisontexte${sai[0]}`).style("fill-opacity", "1")
+    }
+    //d3.select('.saisonHiver').style("fill-opacity", "1")
+    onMouseOutSaison()
+  })
+
+  // Mouseover 
+function onMouseOverSaison(d) {
+
+  d3.select('.tooltip3')
+  .style("text-align", "center")
+  .style("font-family", "Titillium Web")
+  .text(Math.round((d) / reponsesTotales * 100) + " % des votants")
+  d3.select('.tooltip3').classed('hidden', false);
+}
+	// Mouseout 
+	function onMouseOutSaison(d, i){
+		d3.select('.tooltip3')
+    .text("Passer la souris pour découvrir les %");
+	}
 
 
 
@@ -411,7 +494,7 @@ function draw3(words) {
     .enter().append("text")
     // .attr("x", function (d) { return d.size; })
     // .attr("y", function (d) { return d.size; })
-    .attr("class", function (d) { return `pays${d.size}` })
+    .attr("class", function (d) { return `pays${d.text}` })
 
     .style("font-size", function (d) { return d.size * 1.2; })
     .style("fill", "green")
@@ -425,6 +508,216 @@ function draw3(words) {
     .text(function (d) { return d.text; });
 }
 
+// Mettre en lumière une proposition quand on passe la souris 
+domOn('.paysUSA', 'mouseover', () => {
+  for (const pay of pays) {
+    d3.select(`.pays${pay[0]}`).style("fill-opacity", "0.5")
+  }
+  d3.select('.paysAfrique.du.Sud').style("fill-opacity", "0.5")
+  d3.select('.paysUSA').style("fill-opacity", "1")
+  onMouseOverWorldCloudMPays(6)
+})
+domOn('.paysUSA', 'mouseout', () => {
+  for (const pay of pays) {
+    d3.select(`.pays${pay[0]}`).style("fill-opacity", "1")
+  }
+  d3.select('.paysAfrique.du.Sud').style("fill-opacity", "1")
+  onMouseOutWorldCloudPays()
+})
+
+domOn('.paysItalie', 'mouseover', () => {
+  for (const pay of pays) {
+    d3.select(`.pays${pay[0]}`).style("fill-opacity", "0.5")
+  }
+  d3.select('.paysAfrique.du.Sud').style("fill-opacity", "0.5")
+  d3.select('.paysItalie').style("fill-opacity", "1")
+  onMouseOverWorldCloudMPays(5)
+})
+domOn('.paysItalie', 'mouseout', () => {
+  for (const pay of pays) {
+    d3.select(`.pays${pay[0]}`).style("fill-opacity", "1")
+  }
+  d3.select('.paysAfrique.du.Sud').style("fill-opacity", "1")
+  onMouseOutWorldCloudPays()
+})
+
+domOn('.paysCanada', 'mouseover', () => {
+  for (const pay of pays) {
+    d3.select(`.pays${pay[0]}`).style("fill-opacity", "0.5")
+  }
+  d3.select('.paysAfrique.du.Sud').style("fill-opacity", "0.5")
+  d3.select('.paysCanada').style("fill-opacity", "1")
+  onMouseOverWorldCloudMPays(3)
+})
+domOn('.paysCanada', 'mouseout', () => {
+  for (const pay of pays) {
+    d3.select(`.pays${pay[0]}`).style("fill-opacity", "1")
+  }
+  d3.select('.paysAfrique.du.Sud').style("fill-opacity", "1")
+  onMouseOutWorldCloudPays()
+})
+
+domOn('.paysIslande', 'mouseover', () => {
+  for (const pay of pays) {
+    d3.select(`.pays${pay[0]}`).style("fill-opacity", "0.5")
+  }
+  d3.select('.paysAfrique.du.Sud').style("fill-opacity", "0.5")
+  d3.select('.paysIslande').style("fill-opacity", "1")
+  onMouseOverWorldCloudMPays(3)
+})
+domOn('.paysIslande', 'mouseout', () => {
+  for (const pay of pays) {
+    d3.select(`.pays${pay[0]}`).style("fill-opacity", "1")
+  }
+  d3.select('.paysAfrique.du.Sud').style("fill-opacity", "1")
+  onMouseOutWorldCloudPays()
+})
+
+domOn('.paysBrésil', 'mouseover', () => {
+  for (const pay of pays) {
+    d3.select(`.pays${pay[0]}`).style("fill-opacity", "0.5")
+  }
+  d3.select('.paysAfrique.du.Sud').style("fill-opacity", "0.5")
+  d3.select('.paysBrésil').style("fill-opacity", "1")
+  onMouseOverWorldCloudMPays(2)
+})
+domOn('.paysBrésil', 'mouseout', () => {
+  for (const pay of pays) {
+    d3.select(`.pays${pay[0]}`).style("fill-opacity", "1")
+  }
+  d3.select('.paysAfrique.du.Sud').style("fill-opacity", "1")
+  onMouseOutWorldCloudPays()
+})
+
+domOn('.paysJapon', 'mouseover', () => {
+  for (const pay of pays) {
+    d3.select(`.pays${pay[0]}`).style("fill-opacity", "0.5")
+  }
+  d3.select('.paysAfrique.du.Sud').style("fill-opacity", "0.5")
+  d3.select('.paysJapon').style("fill-opacity", "1")
+  onMouseOverWorldCloudMPays(3)
+})
+domOn('.paysJapon', 'mouseout', () => {
+  for (const pay of pays) {
+    d3.select(`.pays${pay[0]}`).style("fill-opacity", "1")
+  }
+  d3.select('.paysAfrique.du.Sud').style("fill-opacity", "1")
+  onMouseOutWorldCloudPays()
+})
+
+domOn('.paysPérou', 'mouseover', () => {
+  for (const pay of pays) {
+    d3.select(`.pays${pay[0]}`).style("fill-opacity", "0.5")
+  }
+  d3.select('.paysAfrique.du.Sud').style("fill-opacity", "0.5")
+  d3.select('.paysPérou').style("fill-opacity", "1")
+  onMouseOverWorldCloudMPays(3)
+})
+domOn('.paysPérou', 'mouseout', () => {
+  for (const pay of pays) {
+    d3.select(`.pays${pay[0]}`).style("fill-opacity", "1")
+  }
+  d3.select('.paysAfrique.du.Sud').style("fill-opacity", "1")
+  onMouseOutWorldCloudPays()
+})
+
+domOn('.paysAustralie', 'mouseover', () => {
+  for (const pay of pays) {
+    d3.select(`.pays${pay[0]}`).style("fill-opacity", "0.5")
+  }
+  d3.select('.paysAfrique.du.Sud').style("fill-opacity", "0.5")
+  d3.select('.paysAustralie').style("fill-opacity", "1")
+  onMouseOverWorldCloudMPays(3)
+})
+domOn('.paysAustralie', 'mouseout', () => {
+  for (const pay of pays) {
+    d3.select(`.pays${pay[0]}`).style("fill-opacity", "1")
+  }
+  d3.select('.paysAfrique.du.Sud').style("fill-opacity", "1")
+  onMouseOutWorldCloudPays()
+})
+
+domOn('.paysMéxique', 'mouseover', () => {
+  for (const pay of pays) {
+    d3.select(`.pays${pay[0]}`).style("fill-opacity", "0.5")
+  }
+  d3.select('.paysAfrique.du.Sud').style("fill-opacity", "0.5")
+  d3.select('.paysMéxique').style("fill-opacity", "1")
+  onMouseOverWorldCloudMPays(1)
+})
+domOn('.paysMéxique', 'mouseout', () => {
+  for (const pay of pays) {
+    d3.select(`.pays${pay[0]}`).style("fill-opacity", "1")
+  }
+  d3.select('.paysAfrique.du.Sud').style("fill-opacity", "1")
+  onMouseOutWorldCloudPays()
+})
+
+domOn('.paysGrèce', 'mouseover', () => {
+  for (const pay of pays) {
+    d3.select(`.pays${pay[0]}`).style("fill-opacity", "0.5")
+  }
+  d3.select('.paysAfrique.du.Sud').style("fill-opacity", "0.5")
+  d3.select('.paysGrèce').style("fill-opacity", "1")
+  onMouseOverWorldCloudMPays(1)
+})
+domOn('.paysGrèce', 'mouseout', () => {
+  for (const pay of pays) {
+    d3.select(`.pays${pay[0]}`).style("fill-opacity", "1")
+  }
+  d3.select('.paysAfrique.du.Sud').style("fill-opacity", "1")
+  onMouseOutWorldCloudPays()
+})
+
+domOn('.paysEspagne', 'mouseover', () => {
+  for (const pay of pays) {
+    d3.select(`.pays${pay[0]}`).style("fill-opacity", "0.5")
+  }
+  d3.select('.paysAfrique.du.Sud').style("fill-opacity", "0.5")
+  d3.select('.paysEspagne').style("fill-opacity", "1")
+  onMouseOverWorldCloudMPays(1)
+})
+domOn('.paysEspagne', 'mouseout', () => {
+  for (const pay of pays) {
+    d3.select(`.pays${pay[0]}`).style("fill-opacity", "1")
+  }
+  d3.select('.paysAfrique.du.Sud').style("fill-opacity", "1")
+  onMouseOutWorldCloudPays()
+})
+
+domOn('.paysAfrique.du.Sud', 'mouseover', () => {
+  for (const pay of pays) {
+    d3.select(`.pays${pay[0]}`).style("fill-opacity", "0.5")
+  }
+  // d3.select('.paysAfrique.du.Sud').style("fill-opacity", "0.5")
+  d3.select('.paysAfrique.du.Sud').style("fill-opacity", "1")
+  onMouseOverWorldCloudMPays(1)
+})
+
+domOn('.paysAfrique.du.Sud', 'mouseout', () => {
+  for (const pay of pays) {
+    d3.select(`.pays${pay[0]}`).style("fill-opacity", "1")
+  }
+  // d3.select('.paysAfrique.du.Sud').style("fill-opacity", "1")
+  onMouseOutWorldCloudPays()
+})
+
+
+
+// Mouseover 
+function onMouseOverWorldCloudMPays(d) {
+
+  d3.select('.tooltip4')
+  .style("text-align", "center")
+  .style("font-family", "Titillium Web")
+  .text(Math.round((d) / reponsesTotales * 100) + " % des votants")
+  d3.select('.tooltip4').classed('hidden', false);
+}
+	// Mouseout 
+	function onMouseOutWorldCloudPays(d, i){
+		d3.select('.tooltip4')
+    .text("Passer la souris pour découvrir les %");
+	}
 
 
 
@@ -477,6 +770,93 @@ elemEnter2.append("text")
   .style("font-weight", "regular")
   .style("font-size", 20)
 
+  // domOn('.saisonEté', 'mouseover', () => {
+  //   for (const sai of saison) {
+  //     d3.select(`.saison${sai[0]}`).style("fill-opacity", "0.5")
+  //     d3.select(`.saisontexte${sai[0]}`).style("fill-opacity", "0.5")
+  //   }
+  //   d3.select('.saisonEté').style("fill-opacity", "1")
+  //   d3.select(`.saisontexteEté`).style("fill-opacity", "1")
+  //   onMouseOverSaison(6)
+  // })
+  // domOn('.saisonEté', 'mouseout', () => {
+  //   for (const sai of saison) {
+  //     d3.select(`.saison${sai[0]}`).style("fill-opacity", "1")
+  //     d3.select(`.saisontexte${sai[0]}`).style("fill-opacity", "1")
+  //   }
+  //   //d3.select('.saisonEté').style("fill-opacity", "1")
+  //   onMouseOutSaison()
+  // })
+
+  // domOn('.saisonPrintemps', 'mouseover', () => {
+  //   for (const sai of saison) {
+  //     d3.select(`.saison${sai[0]}`).style("fill-opacity", "0.5")
+  //     d3.select(`.saisontexte${sai[0]}`).style("fill-opacity", "0.5")
+  //   }
+  //   d3.select('.saisonPrintemps').style("fill-opacity", "1")
+  //   d3.select(`.saisontextePrintemps`).style("fill-opacity", "1")
+  //   onMouseOverSaison(6)
+  // })
+  // domOn('.saisonPrintemps', 'mouseout', () => {
+  //   for (const sai of saison) {
+  //     d3.select(`.saison${sai[0]}`).style("fill-opacity", "1")
+  //     d3.select(`.saisontexte${sai[0]}`).style("fill-opacity", "1")
+  //   }
+  //   //d3.select('.saisonPrintemps').style("fill-opacity", "1")
+  //   onMouseOutSaison()
+  // })
+
+  // domOn('.saisonAutomne', 'mouseover', () => {
+  //   for (const sai of saison) {
+  //     d3.select(`.saison${sai[0]}`).style("fill-opacity", "0.5")
+  //     d3.select(`.saisontexte${sai[0]}`).style("fill-opacity", "0.5")
+  //   }
+  //   d3.select('.saisonAutomne').style("fill-opacity", "1")
+  //   d3.select(`.saisontexteAutomne`).style("fill-opacity", "1")
+  //   onMouseOverSaison(6)
+  // })
+  // domOn('.saisonAutomne', 'mouseout', () => {
+  //   for (const sai of saison) {
+  //     d3.select(`.saison${sai[0]}`).style("fill-opacity", "1")
+  //     d3.select(`.saisontexte${sai[0]}`).style("fill-opacity", "1")
+  //   }
+  //   //d3.select('.saisonAutomne').style("fill-opacity", "1")
+  //   onMouseOutSaison()
+  // })
+
+  // domOn('.saisonHiver', 'mouseover', () => {
+  //   for (const sai of saison) {
+  //     d3.select(`.saison${sai[0]}`).style("fill-opacity", "0.5")
+  //     d3.select(`.saisontexte${sai[0]}`).style("fill-opacity", "0.5")
+  //   }
+  //   d3.select('.saisonHiver').style("fill-opacity", "1")
+  //   d3.select(`.saisontexteHiver`).style("fill-opacity", "1")
+  //   onMouseOverSaison(6)
+  // })
+  // domOn('.saisonHiver', 'mouseout', () => {
+  //   for (const sai of saison) {
+  //     d3.select(`.saison${sai[0]}`).style("fill-opacity", "1")
+  //     d3.select(`.saisontexte${sai[0]}`).style("fill-opacity", "1")
+  //   }
+  //   //d3.select('.saisonHiver').style("fill-opacity", "1")
+  //   onMouseOutSaison()
+  // })
+
+//   // Mouseover 
+// function onMouseOverSaison(d) {
+
+//   d3.select('.tooltip3')
+//   .style("text-align", "center")
+//   .style("font-family", "Titillium Web")
+//   .text(Math.round((d) / reponsesTotales * 100) + " % des votants")
+//   d3.select('.tooltip3').classed('hidden', false);
+// }
+// 	// Mouseout 
+// 	function onMouseOutSaison(d, i){
+// 		d3.select('.tooltip3')
+//     .text("Passer la souris pour découvrir les %");
+// 	}
+
 
 
 
@@ -489,9 +869,6 @@ var svg6 = d3.select("#my_dataviz6").append("svg")
   .call(responsivefy) // rend la visualisation responsive
   .append("g").attr("id", "viz6")
   .attr("transform", "translate(" + margin.left * 17 + "," + margin.top + ")")
-
-
-
 
 let x6 = d3.scaleBand()
   .domain(logement.map(function (l) { return l[0]; }))
@@ -519,39 +896,87 @@ svg6.selectAll("bars")
   .attr("y", function (l) { return y6(l[1]); })
   .attr('width', 20)
   .attr('height', function (l) { return height - y6(l[1]); })
-  .attr("class", function (l) { return `logement${l[1]}` })
+  .attr("class", function (l) { return `logement${l[0]}` })
   .attr('fill', 'green')
 
-// domOn('.time16', 'mouseover', () => {
-//   d3.select('.time11').style("fill-opacity", "0.5")
-//   d3.select('.time5').style("fill-opacity", "0.5")
-// })
 
-// domOn('.time16', 'mouseout', () => {
-//   d3.select('.time11').style("fill-opacity", "1")
-//   d3.select('.time5').style("fill-opacity", "1")
-// })
+domOn('.logementHôtel', 'mouseover', () => {
+  for (const loge of logement) {
+    d3.select(`.logement${loge[0]}`).style("fill-opacity", "0.5")
+  }
+  d3.select('.logementAuberge.de.Jeunesse').style("fill-opacity", "0.5")
+  d3.select('.logementHôtel').style("fill-opacity", "1")
+  onMouseOverLogement(13)
+})
+domOn('.logementHôtel', 'mouseout', () => {
+  for (const loge of logement) {
+    d3.select(`.logement${loge[0]}`).style("fill-opacity", "1")
+  }
+  d3.select('.logementAuberge.de.Jeunesse').style("fill-opacity", "1")
+  onMouseOutLogement()
+})
 
-// domOn('.time11', 'mouseover', () => {
-//   d3.select('.time16').style("fill-opacity", "0.5")
-//   d3.select('.time5').style("fill-opacity", "0.5")
-// })
+domOn('.logementAirbnb', 'mouseover', () => {
+  for (const loge of logement) {
+    d3.select(`.logement${loge[0]}`).style("fill-opacity", "0.5")
+  }
+  d3.select('.logementAuberge.de.Jeunesse').style("fill-opacity", "0.5")
+  d3.select('.logementAirbnb').style("fill-opacity", "1")
+  onMouseOverLogement(13)
+})
+domOn('.logementAirbnb', 'mouseout', () => {
+  for (const loge of logement) {
+    d3.select(`.logement${loge[0]}`).style("fill-opacity", "1")
+  }
+  d3.select('.logementAuberge.de.Jeunesse').style("fill-opacity", "1")
+  onMouseOutLogement()
+})
 
-// domOn('.time11', 'mouseout', () => {
-//   d3.select('.time16').style("fill-opacity", "1")
-//   d3.select('.time5').style("fill-opacity", "1")
-// })
+domOn('.logementCamping', 'mouseover', () => {
+  for (const loge of logement) {
+    d3.select(`.logement${loge[0]}`).style("fill-opacity", "0.5")
+  }
+  d3.select('.logementAuberge.de.Jeunesse').style("fill-opacity", "0.5")
+  d3.select('.logementCamping').style("fill-opacity", "1")
+  onMouseOverLogement(5)
+})
+domOn('.logementCamping', 'mouseout', () => {
+  for (const loge of logement) {
+    d3.select(`.logement${loge[0]}`).style("fill-opacity", "1")
+  }
+  d3.select('.logementAuberge.de.Jeunesse').style("fill-opacity", "1")
+  onMouseOutLogement()
+})
 
-// domOn('.time5', 'mouseover', () => {
-//   d3.select('.time11').style("fill-opacity", "0.5")
-//   d3.select('.time16').style("fill-opacity", "0.5")
-// })
+domOn('.logementAuberge.de.Jeunesse', 'mouseover', () => {
+  for (const loge of logement) {
+    d3.select(`.logement${loge[0]}`).style("fill-opacity", "0.5")
+  }
+  // d3.select('.paysAuberge.de.Jeunesse').style("fill-opacity", "0.5")
+  d3.select('.logementAuberge.de.Jeunesse').style("fill-opacity", "1")
+  onMouseOverLogement(1)
+})
+domOn('.logementAuberge.de.Jeunesse', 'mouseout', () => {
+  for (const loge of logement) {
+    d3.select(`.logement${loge[0]}`).style("fill-opacity", "1")
+  }
+  onMouseOutLogement()
+})
 
-// domOn('.time5', 'mouseout', () => {
-//   d3.select('.time11').style("fill-opacity", "1")
-//   d3.select('.time16').style("fill-opacity", "1")
-// })
-
+// Mouseover event handler
+function onMouseOverLogement(d) {
+  // Update Tooltip's position and value
+  d3.select('.tooltip6')
+  .style("text-align", "center")
+  .style("font-family", "Titillium Web")
+  .text(d + " votes (" + Math.round((d) / reponsesTotales * 100) + " %)")
+  d3.select('.tooltip6').classed('hidden', false);
+}
+	// Mouseout event handler
+	function onMouseOutLogement(d, i){
+		d3.select('.tooltip6')
+    .text("Passer la souris pour découvrir les %");
+	}
 
 
 
@@ -604,6 +1029,7 @@ var path = svg7.selectAll('path')
 
     return color(theme[i]);
   })
+  .attr("class", function (d, i) { return `theme${theme[i][0]}`})
   .attr('transform', 'translate(0, 0)')
 
 // Legende du graph sur le côté 
@@ -614,7 +1040,7 @@ let legend = svg7.selectAll(".legend")
   .attr("transform", function (d, i) {
     return "translate(" + (350) + "," + (theme[i][1]) + ")"; // place each legend on the right and bump each one down 15 pixels
   })
-  .attr("class", "legend");
+  .attr("class", function (d, i) { return `legendTheme${theme[i][0]}`})
 
 
 legend.append("rect")
@@ -638,98 +1064,40 @@ legend.append("text")
 
 
 
-
-// var innerRadius = 80,
-//     outerRadius = Math.min(width, height) / 2;   // the outerRadius goes from the middle of the SVG area to the border
-
-//     // X scale
-//   var b = d3.scaleBand()
-//   .range([0, 2 * Math.PI])    // X axis goes from 0 to 2pi = all around the circle. If I stop at 1Pi, it will be around a half circle
-//   .align(0)                  // This does nothing ?
-//   .domain( theme.map(function(d) { return d[0]; }) ); // The domain of the X axis is the list of states.
-
-// // Y scale
-// var c = d3.scaleRadial()
-//   .range([innerRadius, outerRadius])   // Domain will be define later.
-//   .domain([0, 50]); // Domain of Y is from 0 to the max seen in the data
-
-// // Add bars
-// svg7.append("g")
-// .selectAll("path")
-// .data(theme)
-// .enter()
-// .append("path")
-//   .attr("fill", "#69b3a2")
-//   .attr("d", d3.arc()     // imagine your doing a part of a donut plot
-//       .innerRadius(innerRadius)
-//       .outerRadius(function(d) { return c(d[1]); })
-//       .startAngle(function(d) { return b(d[1]); })
-//       .endAngle(function(d) { return b(d[1]) + b.bandwidth(); })
-//       .padAngle(0.01)
-//       .padRadius(innerRadius))
+  domOn('.themeRoad.Trip.découverte', 'mouseover', () => {
+    d3.select('.themeDétente.et.repos').style("fill-opacity", "0.5")
+    d3.select('.legendThemeDétente.et.repos').style("fill-opacity", "0.5")
+    onMouseOverTheme(25)
+  })
+  domOn('.themeRoad.Trip.découverte', 'mouseout', () => {
+    d3.select('.themeDétente.et.repos').style("fill-opacity", "1")
+    d3.select('.legendThemeDétente.et.repos').style("fill-opacity", "1")
+    onMouseOutTheme()
+  })
+  
+  domOn('.themeDétente.et.repos', 'mouseover', () => {
+    d3.select('.themeRoad.Trip.découverte').style("fill-opacity", "0.5")
+    d3.select('.legendThemeRoad.Trip.découverte').style("fill-opacity", "0.5")
+    onMouseOverTheme(7)
+  })
+  domOn('.themeDétente.et.repos', 'mouseout', () => {
+    d3.select('.themeRoad.Trip.découverte').style("fill-opacity", "1")
+    d3.select('.legendThemeRoad.Trip.découverte').style("fill-opacity", "1")
+    onMouseOutTheme()
+  })
 
 
-
-
-
-
-// var svg7 = d3.select("#my_dataviz7").append("svg")
-//   .attr("width", width + margin.left + margin.right)
-//   .attr("height", height + margin.top + margin.bottom)
-//   // appelle une fonction dans le file reponsive.js
-//   .call(responsivefy) // rend la visualisation responsive
-//   .append("g")
-//   .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-// var layout2 = d3.layout.cloud()
-//   .size([width, height])
-//   // une des phrases n'a qu'1 vote, je l'aggrandis juste pour qu'elle soit lisible
-//   .words(theme.map(function (th) { return { text: th[0], size: th[1] * 3.5 }; }))
-//   .padding(10)
-//   .rotate(function () { return 0; })
-//   .fontSize(function (th) { return th.size })    // font size of words
-//   // pour pas que l'emplacement change au refresh, on met o.5 ou 1
-//   .random(function (th) { return 0.5; })
-//   .on("end", draw2);
-// layout2.start();
-
-// function draw2(words) {
-//   //console.log(words);
-//   svg7
-//     .append("g")
-//     .attr("transform", "translate(" + layout.size()[0] / 2 + "," + layout.size()[1] / 2 + ")")
-//     .selectAll("text")
-//     .data(words)
-//     .enter().append("text")
-//     // .attr("x", function (d) { return d.size; })
-//     // .attr("y", function (d) { return d.size; })
-//     .attr("class", function (th) { return `theme${th.size}` })
-//     .style("font-size", function (th) { return th.size * 1.1; })
-//     .style("fill", "green")
-//     .attr("text-anchor", "middle")
-//     .style("font-family", "Titillium Web")
-//     .style("font-weight", "bold")
-
-//     .attr("transform", function (d) {
-//       return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
-//     })
-//     .text(function (d) { return d.text; });
-// }
-
-
-// // Mettre en lumière une proposition quand on passe la souris
-// domOn('.theme87', 'mouseover', () => {
-//   d3.select('.theme24').style("fill-opacity", "0.5")
-// })
-
-// domOn('.theme87', 'mouseout', () => {
-//   d3.select('.theme24').style("fill-opacity", "1")
-// })
-
-// domOn('.theme24', 'mouseover', () => {
-//   d3.select('.theme87').style("fill-opacity", "0.5")
-// })
-
-// domOn('.theme24', 'mouseout', () => {
-//   d3.select('.theme87').style("fill-opacity", "1")
-// })
+// Mouseover event handler
+function onMouseOverTheme(d) {
+  // Update Tooltip's position and value
+  d3.select('.tooltip7')
+  .style("text-align", "center")
+  .style("font-family", "Titillium Web")
+  .text(Math.round((d) / reponsesTotales * 100) + " % des votants")
+  d3.select('.tooltip7').classed('hidden', false);
+}
+	// Mouseout event handler
+	function onMouseOutTheme(d, i){
+		d3.select('.tooltip7')
+    .text("Passer la souris pour découvrir les %");
+	}
