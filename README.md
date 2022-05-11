@@ -2,6 +2,9 @@
 
 Ce projet s’inscrit dans le cadre du cours Visualisation de Données au sein du Bachelor en Ingénierie des médias à la HEIG-VD. Ce travail est produit avec D3, un framework Javascript. 
 
+Slides de présentations : https://www.canva.com/design/DAFAZEsvh1Q/0NaD87RozaHoTer8H2brkw/edit?utm_content=DAFAZEsvh1Q&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
+
+
 
 
 ## Contexte  
