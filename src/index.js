@@ -1,3 +1,11 @@
+// Quelques fonctions utilitaires
+function domForEach(selector, callback) {
+  document.querySelectorAll(selector).forEach(callback);
+}
+function domOn(selector, event, callback, options) {
+  document.querySelectorAll(selector).forEach(element => element.addEventListener(event, callback, options));
+}
+
 //first page handling 
 document.querySelector("#explications").classList.remove("hide")
 
@@ -17,22 +25,8 @@ domOn('#enter3', 'click', () => {
 
 })
 
-
-
-
-
-// Quelques fonctions utilitaires
-function domForEach(selector, callback) {
-  document.querySelectorAll(selector).forEach(callback);
-}
-function domOn(selector, event, callback, options) {
-  document.querySelectorAll(selector).forEach(element => element.addEventListener(event, callback, options));
-}
-
 import responsivefy from './responsive';
 import dataBrutes from '../data/data.json'
-import propositions from '../data/dataPropositions.json'
-import { formatPrefix } from 'd3'
 
 
 // Tri des données dans les tableaux
@@ -49,22 +43,6 @@ const tabThemeBrut = dataBrutes.map(dataBrutes => dataBrutes["theme"]);
 // connaitre combien de personnes ont répondu pour ajuster les graphiques
 const reponsesTotales = tabThemeBrut.length
 // console.log(reponsesTotales);
-
-
-// const count = (array, question) => {
-
-//   for (const i of array) {
-//     // faire correspondre propostions et le i en itérant sur les deux (le i et les propositions)
-//   }
-
-
-
-
-
-
-
-
-// }
 
 // Fonction de comptage des données
 // Connaître la proportion des données dans chaque tableaux envoyés
@@ -85,8 +63,6 @@ function rendCount(array) {
 
 }
 
-
-
 const tabMotivation = rendCount(tabMotivationBrut);
 const tabTime = rendCount(tabTimeBrut);
 const tabPays = rendCount(tabPaysBrut);
@@ -94,20 +70,6 @@ const tabSaison = rendCount(tabSaisonBrut);
 const tabPeople = rendCount(tabPeopleBrut);
 const tabLogement = rendCount(tabLogementBrut);
 const tabTheme = rendCount(tabThemeBrut);
-
-// console.log(logement);
-// console.log(logement["Hôtel"]);
-//console.log(tabLogement);
-
-
-
-
-// //const tabTest = [{word: , size:}];
-// for (const [key, value] of Object.entries(motivation)) {
-//   //console.log(`${key}: ${value}`);
-//   //tabTest = [{word: key, size: value}];
-// }
-
 
 //console.log(tabTest);
 const motivation = Object.entries(tabMotivation)
@@ -117,16 +79,6 @@ const saison = Object.entries(tabSaison)
 const people = Object.entries(tabPeople)
 const logement = Object.entries(tabLogement)
 const theme = Object.entries(tabTheme)
-console.log(pays);
-
-
-
-
-
-
-// List of words
-//var myWords = [{word: "Running", size: "10"}, {word: "Surfing", size: "20"}, {word: "Climbing", size: "50"}, {word: "Kiting", size: "30"}, {word: "Sailing", size: "20"}, {word: "Snowboarding", size: "60"} ]
-//var myWords = [{word: "Volonté de découvrir le monde et soif d'apprentissage", size: "10"}, {word: "S'évader du quotidien fatiguant et penser à autre chose", size: "20"}, {word: "Voyage de rêve en tête et volonté de le réaliser", size: "50"}, {word: "Habitude de voyager régulièrement", size: "30"} ]
 
 // set the dimensions and margins of the graph
 var margin = { top: 30, right: 30, bottom: 30, left: 30 },
@@ -175,7 +127,6 @@ function draw(words) {
     })
     .text(function (d) { return d.text; });
 }
-
 
 // Mettre en lumière une proposition quand on passe la souris 
 domOn('.motivation73', 'mouseover', () => {
@@ -257,7 +208,6 @@ svg2.append("g")
 svg2.append("g")
   .call(d3.axisLeft(y));
 
-
 svg2.selectAll("bars")
   .data(time)
   .enter()
@@ -270,7 +220,7 @@ svg2.selectAll("bars")
   .attr('fill', 'green')
   .on("mouseover", onMouseOver) // Add listener for event
   .on("mouseout", onMouseOut)
-console.log(time);
+//console.log(time);
 
 domOn('.time16', 'mouseover', () => {
   d3.select('.time11').style("fill-opacity", "0.5")
@@ -302,9 +252,6 @@ domOn('.time5', 'mouseout', () => {
   d3.select('.time16').style("fill-opacity", "1")
 })
 
-
-
-
 // Mouseover event handler
 function onMouseOver(d, i) {
   // Get bar's xy values, ,then augment for the tooltip
@@ -322,8 +269,6 @@ function onMouseOver(d, i) {
 		d3.select('.tooltip2')
     .text("Passer la souris pour découvrir les %");
 	}
-
-
 
 
 // GRAPHIQUE 3 CIRCLE SEASON 
@@ -454,15 +399,6 @@ function onMouseOverSaison(d) {
 		d3.select('.tooltip3')
     .text("Passer la souris pour découvrir les %");
 	}
-
-
-
-
-
-
-
-
-
 
 
 // GRAPHIQUE 4 PAYS WORLD CLOUD 
@@ -702,8 +638,6 @@ domOn('.paysAfrique.du.Sud', 'mouseout', () => {
   onMouseOutWorldCloudPays()
 })
 
-
-
 // Mouseover 
 function onMouseOverWorldCloudMPays(d) {
 
@@ -720,14 +654,6 @@ function onMouseOverWorldCloudMPays(d) {
 	}
 
 
-
-
-
-
-
-
-
-
 // GRAPHIQUE 5 CIRCLE PEOPLE 
 var svg5 = d3.select("#my_dataviz5").append("svg")
   .attr("width", width + margin.left + margin.right)
@@ -735,7 +661,6 @@ var svg5 = d3.select("#my_dataviz5").append("svg")
   .call(responsivefy) // rend la visualisation responsive
   .append("g").attr("id", "viz5")
   .attr("transform", "translate(" + margin.left * 8 + "," + margin.top + ")")
-
 
 // Add a scale for bubble size
 const w = d3.scaleLinear()
@@ -770,97 +695,96 @@ elemEnter2.append("text")
   .style("font-weight", "regular")
   .style("font-size", 20)
 
-  // domOn('.saisonEté', 'mouseover', () => {
-  //   for (const sai of saison) {
-  //     d3.select(`.saison${sai[0]}`).style("fill-opacity", "0.5")
-  //     d3.select(`.saisontexte${sai[0]}`).style("fill-opacity", "0.5")
-  //   }
-  //   d3.select('.saisonEté').style("fill-opacity", "1")
-  //   d3.select(`.saisontexteEté`).style("fill-opacity", "1")
-  //   onMouseOverSaison(6)
-  // })
-  // domOn('.saisonEté', 'mouseout', () => {
-  //   for (const sai of saison) {
-  //     d3.select(`.saison${sai[0]}`).style("fill-opacity", "1")
-  //     d3.select(`.saisontexte${sai[0]}`).style("fill-opacity", "1")
-  //   }
-  //   //d3.select('.saisonEté').style("fill-opacity", "1")
-  //   onMouseOutSaison()
-  // })
+  domOn('.peopleEntre.amis', 'mouseover', () => {
+    d3.select('.peopleEn.couple').style("fill-opacity", "0.5")
+    d3.select(`.peopletexteEn.couple`).style("fill-opacity", "0.5")
+    d3.select('.peopleEn.famille').style("fill-opacity", "0.5")
+    d3.select(`.peopletexteEn.famille`).style("fill-opacity", "0.5")
+    d3.select('.peopleSeul').style("fill-opacity", "0.5")
+    d3.select(`.peopletexteSeul`).style("fill-opacity", "0.5")
+    onMouseOverPeople(17)
+  })
+  domOn('.peopleEntre.amis', 'mouseout', () => {
+    d3.select('.peopleEn.couple').style("fill-opacity", "1")
+    d3.select(`.peopletexteEn.couple`).style("fill-opacity", "1")
+    d3.select('.peopleEn.famille').style("fill-opacity", "1")
+    d3.select(`.peopletexteEn.famille`).style("fill-opacity", "1")
+    d3.select('.peopleSeul').style("fill-opacity", "1")
+    d3.select(`.peopletexteSeul`).style("fill-opacity", "1")
+    onMouseOutPeople() 
+  })
 
-  // domOn('.saisonPrintemps', 'mouseover', () => {
-  //   for (const sai of saison) {
-  //     d3.select(`.saison${sai[0]}`).style("fill-opacity", "0.5")
-  //     d3.select(`.saisontexte${sai[0]}`).style("fill-opacity", "0.5")
-  //   }
-  //   d3.select('.saisonPrintemps').style("fill-opacity", "1")
-  //   d3.select(`.saisontextePrintemps`).style("fill-opacity", "1")
-  //   onMouseOverSaison(6)
-  // })
-  // domOn('.saisonPrintemps', 'mouseout', () => {
-  //   for (const sai of saison) {
-  //     d3.select(`.saison${sai[0]}`).style("fill-opacity", "1")
-  //     d3.select(`.saisontexte${sai[0]}`).style("fill-opacity", "1")
-  //   }
-  //   //d3.select('.saisonPrintemps').style("fill-opacity", "1")
-  //   onMouseOutSaison()
-  // })
+  domOn('.peopleEn.couple', 'mouseover', () => {
+    d3.select('.peopleEntre.amis').style("fill-opacity", "0.5")
+    d3.select(`.peopletexteEntre.amis`).style("fill-opacity", "0.5")
+    d3.select('.peopleEn.famille').style("fill-opacity", "0.5")
+    d3.select(`.peopletexteEn.famille`).style("fill-opacity", "0.5")
+    d3.select('.peopleSeul').style("fill-opacity", "0.5")
+    d3.select(`.peopletexteSeul`).style("fill-opacity", "0.5")
+    onMouseOverPeople(11)
+  })
+  domOn('.peopleEn.couple', 'mouseout', () => {
+    d3.select('.peopleEntre.amis').style("fill-opacity", "1")
+    d3.select(`.peopletexteEntre.amis`).style("fill-opacity", "1")
+    d3.select('.peopleEn.famille').style("fill-opacity", "1")
+    d3.select(`.peopletexteEn.famille`).style("fill-opacity", "1")
+    d3.select('.peopleSeul').style("fill-opacity", "1")
+    d3.select(`.peopletexteSeul`).style("fill-opacity", "1")
+    onMouseOutPeople()
+  })
 
-  // domOn('.saisonAutomne', 'mouseover', () => {
-  //   for (const sai of saison) {
-  //     d3.select(`.saison${sai[0]}`).style("fill-opacity", "0.5")
-  //     d3.select(`.saisontexte${sai[0]}`).style("fill-opacity", "0.5")
-  //   }
-  //   d3.select('.saisonAutomne').style("fill-opacity", "1")
-  //   d3.select(`.saisontexteAutomne`).style("fill-opacity", "1")
-  //   onMouseOverSaison(6)
-  // })
-  // domOn('.saisonAutomne', 'mouseout', () => {
-  //   for (const sai of saison) {
-  //     d3.select(`.saison${sai[0]}`).style("fill-opacity", "1")
-  //     d3.select(`.saisontexte${sai[0]}`).style("fill-opacity", "1")
-  //   }
-  //   //d3.select('.saisonAutomne').style("fill-opacity", "1")
-  //   onMouseOutSaison()
-  // })
+  domOn('.peopleEn.famille', 'mouseover', () => {
+    d3.select('.peopleEn.couple').style("fill-opacity", "0.5")
+    d3.select(`.peopletexteEn.couple`).style("fill-opacity", "0.5")
+    d3.select('.peopleEntre.amis').style("fill-opacity", "0.5")
+    d3.select(`.peopletexteEntre.amis`).style("fill-opacity", "0.5")
+    d3.select('.peopleSeul').style("fill-opacity", "0.5")
+    d3.select(`.peopletexteSeul`).style("fill-opacity", "0.5")
+    onMouseOverPeople(3)
+  })
+  domOn('.peopleEn.famille', 'mouseout', () => {
+    d3.select('.peopleEn.couple').style("fill-opacity", "1")
+    d3.select(`.peopletexteEn.couple`).style("fill-opacity", "1")
+    d3.select('.peopleEntre.amis').style("fill-opacity", "1")
+    d3.select(`.peopletexteEntre.amis`).style("fill-opacity", "1")
+    d3.select('.peopleSeul').style("fill-opacity", "1")
+    d3.select(`.peopletexteSeul`).style("fill-opacity", "1")
+    onMouseOutPeople()
+  })
 
-  // domOn('.saisonHiver', 'mouseover', () => {
-  //   for (const sai of saison) {
-  //     d3.select(`.saison${sai[0]}`).style("fill-opacity", "0.5")
-  //     d3.select(`.saisontexte${sai[0]}`).style("fill-opacity", "0.5")
-  //   }
-  //   d3.select('.saisonHiver').style("fill-opacity", "1")
-  //   d3.select(`.saisontexteHiver`).style("fill-opacity", "1")
-  //   onMouseOverSaison(6)
-  // })
-  // domOn('.saisonHiver', 'mouseout', () => {
-  //   for (const sai of saison) {
-  //     d3.select(`.saison${sai[0]}`).style("fill-opacity", "1")
-  //     d3.select(`.saisontexte${sai[0]}`).style("fill-opacity", "1")
-  //   }
-  //   //d3.select('.saisonHiver').style("fill-opacity", "1")
-  //   onMouseOutSaison()
-  // })
+  domOn('.peopleSeul', 'mouseover', () => {
+    d3.select('.peopleEn.couple').style("fill-opacity", "0.5")
+    d3.select(`.peopletexteEn.couple`).style("fill-opacity", "0.5")
+    d3.select('.peopleEn.famille').style("fill-opacity", "0.5")
+    d3.select(`.peopletexteEn.famille`).style("fill-opacity", "0.5")
+    d3.select('.peopleEntre.amis').style("fill-opacity", "0.5")
+    d3.select(`.peopletexteEntre.amis`).style("fill-opacity", "0.5")
+    onMouseOverPeople(1)
+  })
+  domOn('.peopleSeul', 'mouseout', () => {
+    d3.select('.peopleEn.couple').style("fill-opacity", "1")
+    d3.select(`.peopletexteEn.couple`).style("fill-opacity", "1")
+    d3.select('.peopleEn.famille').style("fill-opacity", "1")
+    d3.select(`.peopletexteEn.famille`).style("fill-opacity", "1")
+    d3.select('.peopleEntre.amis').style("fill-opacity", "1")
+    d3.select(`.peopletexteEntre.amis`).style("fill-opacity", "1")
+    onMouseOutPeople()
+  })
 
-//   // Mouseover 
-// function onMouseOverSaison(d) {
+  // Mouseover 
+function onMouseOverPeople(d) {
 
-//   d3.select('.tooltip3')
-//   .style("text-align", "center")
-//   .style("font-family", "Titillium Web")
-//   .text(Math.round((d) / reponsesTotales * 100) + " % des votants")
-//   d3.select('.tooltip3').classed('hidden', false);
-// }
-// 	// Mouseout 
-// 	function onMouseOutSaison(d, i){
-// 		d3.select('.tooltip3')
-//     .text("Passer la souris pour découvrir les %");
-// 	}
-
-
-
-
-
+  d3.select('.tooltip5')
+  .style("text-align", "center")
+  .style("font-family", "Titillium Web")
+  .text(Math.round((d) / reponsesTotales * 100) + " % des votants")
+  d3.select('.tooltip5').classed('hidden', false);
+}
+	// Mouseout 
+	function onMouseOutPeople(d, i){
+		d3.select('.tooltip5')
+    .text("Passer la souris pour découvrir les %");
+	}
 
 // GRAPHIQUE 6 LOGEMENT BARS
 var svg6 = d3.select("#my_dataviz6").append("svg")
@@ -887,7 +811,6 @@ svg6.append("g")
 svg6.append("g")
   .call(d3.axisLeft(y6));
 
-
 svg6.selectAll("bars")
   .data(logement)
   .enter()
@@ -898,7 +821,6 @@ svg6.selectAll("bars")
   .attr('height', function (l) { return height - y6(l[1]); })
   .attr("class", function (l) { return `logement${l[0]}` })
   .attr('fill', 'green')
-
 
 domOn('.logementHôtel', 'mouseover', () => {
   for (const loge of logement) {
@@ -978,20 +900,7 @@ function onMouseOverLogement(d) {
     .text("Passer la souris pour découvrir les %");
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
 // GRAPHIQUE 7 THEME WORLD CLOUD 
-
 var donutWidth = 75;
 var radius = Math.min(width, height) / 2;
 
@@ -1025,7 +934,7 @@ var path = svg7.selectAll('path')
   .append('path')
   .attr('d', arc)
   .attr('fill', function (d, i) {
-    console.log(theme[i]);
+    //console.log(theme[i]);
 
     return color(theme[i]);
   })
@@ -1041,7 +950,6 @@ let legend = svg7.selectAll(".legend")
     return "translate(" + (350) + "," + (theme[i][1]) + ")"; // place each legend on the right and bump each one down 15 pixels
   })
   .attr("class", function (d, i) { return `legendTheme${theme[i][0]}`})
-
 
 legend.append("rect")
   .attr("width", 10)
@@ -1061,7 +969,6 @@ legend.append("text")
   .style("font-weight", "regular")
   .attr("y", 10)
   .attr("x", 20)
-
 
 
   domOn('.themeRoad.Trip.découverte', 'mouseover', () => {
@@ -1085,7 +992,6 @@ legend.append("text")
     d3.select('.legendThemeRoad.Trip.découverte').style("fill-opacity", "1")
     onMouseOutTheme()
   })
-
 
 // Mouseover event handler
 function onMouseOverTheme(d) {
