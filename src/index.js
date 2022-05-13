@@ -28,6 +28,7 @@ domOn('#enter3', 'click', () => {
 import responsivefy from './responsive';
 import dataBrutes from '../data/data.json'
 
+console.log(dataBrutes);
 
 // Tri des données dans les tableaux
 // 1 tableau par type de données
@@ -39,6 +40,7 @@ const tabPeopleBrut = dataBrutes.map(dataBrutes => dataBrutes["people"]);
 const tabLogementBrut = dataBrutes.map(dataBrutes => dataBrutes["logement"]);
 const tabThemeBrut = dataBrutes.map(dataBrutes => dataBrutes["theme"]);
 
+console.log(tabPaysBrut);
 
 // connaitre combien de personnes ont répondu pour ajuster les graphiques
 const reponsesTotales = tabThemeBrut.length
@@ -70,6 +72,7 @@ const tabSaison = rendCount(tabSaisonBrut);
 const tabPeople = rendCount(tabPeopleBrut);
 const tabLogement = rendCount(tabLogementBrut);
 const tabTheme = rendCount(tabThemeBrut);
+console.log(tabPays);
 
 //console.log(tabTest);
 const motivation = Object.entries(tabMotivation)
@@ -79,6 +82,7 @@ const saison = Object.entries(tabSaison)
 const people = Object.entries(tabPeople)
 const logement = Object.entries(tabLogement)
 const theme = Object.entries(tabTheme)
+console.log(pays);
 
 // set the dimensions and margins of the graph
 var margin = { top: 30, right: 30, bottom: 30, left: 30 },

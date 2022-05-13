@@ -55,6 +55,7 @@ a.button1 {
 a.button1:hover {
     color: green;
     background-color: white;
+    cursor: pointer;
 }
 
 a.button2 {
@@ -78,6 +79,7 @@ a.button2 {
 a.button2:hover {
     color: green;
     background-color: white;
+    cursor: pointer;
 }
 
 a.button3 {
@@ -100,6 +102,7 @@ a.button3 {
 a.button3:hover {
     color: green;
     background-color: white;
+    cursor: pointer;
 }
 
 
